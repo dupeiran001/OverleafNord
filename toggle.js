@@ -1,348 +1,341 @@
-const styleBlack = document.createElement('style');
-const stylePurple = document.createElement('style');
-const styleblue = document.createElement('style');
+const styleNordDark = document.createElement('style');
+const styleNordLight = document.createElement('style');
 
-
-styleBlack.innerText = `
-/* Purple Theme Styles (same as Black Theme for now) */
-html, .loading-screen.ng-scope, .history-entries, .history-labels-list,
-body, .navbar, footer, .popover, .tooltip, .pdf, .pdf-viewer,
-.cm-panels-top, .toolbar-header, .ide-react-editor-sidebar, .history-react,
-.toolbar .dropdown-menu, .modal-backdrop, .project-list-sidebar-wrapper-react,
-.project-list-main-react .fa-circle, .synctex-controls, .custom-toggler,
-.doc-container, .tag-dot, .color-picker-item, .loading, .history-version-list-container,
-.chat {
-    transition: background-color 0.3s ease, color 0.3s ease, filter 0.3s ease;
-}
-
-html, .loading-screen.ng-scope, .history-entries, .history-labels-list {
-    background-color: black !important;
-}
-
-.pdf-viewer {
-    background-color: #e4e8ed;
-}
-
-body,
-${location.href.endsWith("overleaf.com/") || location.href.endsWith("overleaf.com") ? "" : ".navbar, .navbar .dropdown-menu,"}
-footer,
-.popover,
-.tooltip,
+styleNordDark.innerText = `
+/* Nord Dark: apply to PDF pane only (no global editor inversion) */
 .pdf,
 .pdf-viewer,
-.cm-panels-top,
-.toolbar-header,
-.ide-react-editor-sidebar,
-.history-react,
-.toolbar .dropdown-menu,
-.modal-backdrop,
-.project-list-sidebar-wrapper-react,
-.project-list-main-react .fa-circle,
-.synctex-controls,
-.custom-toggler,
-.doc-container,
-.tag-dot,
-.color-picker-item,
-.loading,
-.history-version-list-container,
-.chat {
-    filter: url('data:image/svg+xml, <svg xmlns="http://www.w3.org/2000/svg">\
-      <filter id="replaceWhiteWithPurple" color-interpolation-filters="sRGB">\
-        <feComponentTransfer>\
-          <feFuncR type="table" tableValues="1 0.0"/>\
-          <feFuncG type="table" tableValues="1 0.0"/>\
-          <feFuncB type="table" tableValues="1 0"/>\
-        </feComponentTransfer>\
-      </filter>\
-    </svg>#replaceWhiteWithPurple');
+.pdfjs,
+.pdfjs-viewer,
+.pdfjs .viewer,
+.pdf-viewer .viewer,
+.synctex-controls {
+  background-color: #242933 !important;
+  color: #eceff4 !important;
+  color-scheme: dark !important;
+  scrollbar-color: #4c566a #242933 !important;
+  transition: background-color 0.25s ease, color 0.25s ease, border-color 0.25s ease, filter 0.25s ease;
 }
 
-.cm-gutters {
-    background-color: transparent !important;
+.pdf-viewer .page,
+.pdfjs .page,
+.pdfViewer .page {
+  background-color: #2e3440 !important;
+  background-image: none !important;
+  border: 1px solid #1c2330 !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  -webkit-box-shadow: none !important;
+  filter: none !important;
+  outline: none !important;
+  overflow: hidden !important;
 }
 
-.cm-panels-top {
-    border-bottom: 1px solid #222 !important;
+.pdf-viewer .page::before,
+.pdf-viewer .page::after,
+.pdfjs .page::before,
+.pdfjs .page::after,
+.pdfViewer .page::before,
+.pdfViewer .page::after {
+  content: none !important;
+  background: none !important;
+  background-image: none !important;
+  border: none !important;
+  box-shadow: none !important;
+  -webkit-box-shadow: none !important;
+  filter: none !important;
 }
 
-.project-list-main-react, .cm-activeLineGutter, .pdf-viewer {
-    background-color: #f4f5f6 !important;
+.pdf-viewer canvas,
+.pdf canvas,
+.pdfjs canvas {
+  /* Nord Dark: keep PDF page tone at #2E3440, fg #ECEFF4 */
+  filter: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg"><filter id="zoteroNordDark" color-interpolation-filters="sRGB"><feColorMatrix type="matrix" values="-1 0 0 0 1 0 -1 0 0 1 0 0 -1 0 1 0 0 0 1 0"/><feComponentTransfer><feFuncR type="table" tableValues="0.180392 0.925490"/><feFuncG type="table" tableValues="0.203922 0.937255"/><feFuncB type="table" tableValues="0.250980 0.956863"/></feComponentTransfer></filter></svg>#zoteroNordDark') !important;
+  background: transparent !important;
 }
 
 .horizontal-resize-handle {
-    background-color: #fcfaf7;
+  background-color: #3b4252 !important;
 }
 
-.doc-container .loading {
-    background-color: #000000;
-    color: #ffffff;
+.vertical-resize-handle,
+.split-view-resizer,
+[class*="resize-handle"],
+[class*="splitter"] {
+  background-color: #3b4252 !important;
 }
 
-.doc-container, .history-all-versions-container, .loading, #left-menu {
-    background-color: #ffffff;
+.pdf-viewer::-webkit-scrollbar,
+.pdfjs::-webkit-scrollbar,
+.pdf-viewer .viewer::-webkit-scrollbar,
+.pdfjs .viewer::-webkit-scrollbar,
+.pdf-viewer #viewerContainer::-webkit-scrollbar,
+.pdfjs #viewerContainer::-webkit-scrollbar {
+  width: 10px !important;
+  height: 10px !important;
 }
 
-.cm-activeLine {
-    background: rgba(0, 0, 0, 0.02) !important;
+.pdf-viewer::-webkit-scrollbar-track,
+.pdfjs::-webkit-scrollbar-track,
+.pdf-viewer .viewer::-webkit-scrollbar-track,
+.pdfjs .viewer::-webkit-scrollbar-track,
+.pdf-viewer #viewerContainer::-webkit-scrollbar-track,
+.pdfjs #viewerContainer::-webkit-scrollbar-track {
+  background: #242933 !important;
 }
 
-/* Specify the highlight color directly */
-::.ͼe.cm-focused > .cm-scroller > .cm-selectionLayer .cm-selectionBackground, 
-.ͼe .cm-selectionBackground, .ͼe .cm-content ::selection, .ͼe .cm-searchMatch.cm-searchMatch.cm-searchMatch-selected {
-    background-color: rgba(0, 180, 0, 0.5) !important; 
-    color: #000000 !important; /* Ensuring text color is readable */
+.pdf-viewer::-webkit-scrollbar-thumb,
+.pdfjs::-webkit-scrollbar-thumb,
+.pdf-viewer .viewer::-webkit-scrollbar-thumb,
+.pdfjs .viewer::-webkit-scrollbar-thumb,
+.pdf-viewer #viewerContainer::-webkit-scrollbar-thumb,
+.pdfjs #viewerContainer::-webkit-scrollbar-thumb {
+  background: #4c566a !important;
+  border-radius: 8px !important;
+  border: 2px solid #242933 !important;
 }
 
+.pdf-viewer::-webkit-scrollbar-thumb:hover,
+.pdfjs::-webkit-scrollbar-thumb:hover,
+.pdf-viewer .viewer::-webkit-scrollbar-thumb:hover,
+.pdfjs .viewer::-webkit-scrollbar-thumb:hover,
+.pdf-viewer #viewerContainer::-webkit-scrollbar-thumb:hover,
+.pdfjs #viewerContainer::-webkit-scrollbar-thumb:hover {
+  background: #5e81ac !important;
+}
+
+.pdfViewer .canvasWrapper,
+.pdf-viewer .canvasWrapper,
+.pdfjs .canvasWrapper,
+.pdfViewer .page > div,
+.pdf-viewer .page > div,
+.pdfjs .page > div {
+  background: transparent !important;
+  background-image: none !important;
+  border: none !important;
+  box-shadow: none !important;
+  -webkit-box-shadow: none !important;
+  filter: none !important;
+}
+
+/* PDF text selection: Nord cyan instead of default bright blue */
+.pdfViewer .textLayer ::selection,
+.pdf-viewer .textLayer ::selection,
+.pdfjs .textLayer ::selection,
+.pdfViewer .textLayer span::selection,
+.pdf-viewer .textLayer span::selection,
+.pdfjs .textLayer span::selection {
+  background: rgba(136, 192, 208, 0.50) !important;
+  color: transparent !important;
+  -webkit-text-fill-color: transparent !important;
+}
+
+.pdfViewer .textLayer ::-moz-selection,
+.pdf-viewer .textLayer ::-moz-selection,
+.pdfjs .textLayer ::-moz-selection,
+.pdfViewer .textLayer span::-moz-selection,
+.pdf-viewer .textLayer span::-moz-selection,
+.pdfjs .textLayer span::-moz-selection {
+  background: rgba(136, 192, 208, 0.50) !important;
+  color: transparent !important;
+}
 `;
 
-
-
-
-
-
-
-
-styleblue.innerText = `
-/* Purple Theme Styles (same as Black Theme for now) */
-html, .loading-screen.ng-scope, .history-entries, .history-labels-list,
-body, .navbar, footer, .popover, .tooltip, .pdf, .pdf-viewer,
-.cm-panels-top, .toolbar-header, .ide-react-editor-sidebar, .history-react,
-.toolbar .dropdown-menu, .modal-backdrop, .project-list-sidebar-wrapper-react,
-.project-list-main-react .fa-circle, .synctex-controls, .custom-toggler,
-.doc-container, .tag-dot, .color-picker-item, .loading, .history-version-list-container,
-.chat {
-    transition: background-color 0.3s ease, color 0.3s ease, filter 0.3s ease;
-}
-
-html, .loading-screen.ng-scope, .history-entries, .history-labels-list {
-    background-color: black !important;
-}
-
-.pdf-viewer {
-    background-color: #e4e8ed;
-}
-
-body,
-${location.href.endsWith("overleaf.com/") || location.href.endsWith("overleaf.com") ? "" : ".navbar, .navbar .dropdown-menu,"}
-footer,
-.popover,
-.tooltip,
+styleNordLight.innerText = `
+/* Nord Light: snow-white PDF pane */
 .pdf,
 .pdf-viewer,
-.cm-panels-top,
-.toolbar-header,
-.ide-react-editor-sidebar,
-.history-react,
-.toolbar .dropdown-menu,
-.modal-backdrop,
-.project-list-sidebar-wrapper-react,
-.project-list-main-react .fa-circle,
-.synctex-controls,
-.custom-toggler,
-.doc-container,
-.tag-dot,
-.color-picker-item,
-.loading,
-.history-version-list-container,
-.chat {
-    filter: url('data:image/svg+xml, <svg xmlns="http://www.w3.org/2000/svg">\
-      <filter id="replaceWhiteWithPurple" color-interpolation-filters="sRGB">\
-        <feComponentTransfer>\
-          <feFuncR type="table" tableValues="1 0.02"/>\
-          <feFuncG type="table" tableValues="1 0.03"/>\
-          <feFuncB type="table" tableValues="1 0.1"/>\
-        </feComponentTransfer>\
-      </filter>\
-    </svg>#replaceWhiteWithPurple');
+.pdfjs,
+.pdfjs-viewer,
+.pdfjs .viewer,
+.pdf-viewer .viewer,
+.synctex-controls {
+  background-color: #d8dee9 !important;
+  color: #2e3440 !important;
+  color-scheme: light !important;
+  scrollbar-color: #b8c3d1 #d8dee9 !important;
+  transition: background-color 0.25s ease, color 0.25s ease, border-color 0.25s ease, filter 0.25s ease;
 }
 
-.cm-gutters {
-    background-color: transparent !important;
+.pdf-viewer .page,
+.pdfjs .page,
+.pdfViewer .page {
+  background-color: #d8dee9 !important;
+  background-image: none !important;
+  border: 1px solid #1c2330 !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  -webkit-box-shadow: none !important;
+  filter: none !important;
+  outline: none !important;
+  overflow: hidden !important;
 }
 
-.cm-panels-top {
-    border-bottom: 1px solid #222 !important;
+.pdf-viewer .page::before,
+.pdf-viewer .page::after,
+.pdfjs .page::before,
+.pdfjs .page::after,
+.pdfViewer .page::before,
+.pdfViewer .page::after {
+  content: none !important;
+  background: none !important;
+  background-image: none !important;
+  border: none !important;
+  box-shadow: none !important;
+  -webkit-box-shadow: none !important;
+  filter: none !important;
 }
 
-.project-list-main-react, .cm-activeLineGutter, .pdf-viewer {
-    background-color: #f4f5f6 !important;
+.pdf-viewer canvas,
+.pdf canvas,
+.pdfjs canvas {
+  /* Snow with requested swap: fg #3B4252, bg #D8DEE9 */
+  filter: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg"><filter id="zoteroSnow" color-interpolation-filters="sRGB"><feComponentTransfer><feFuncR type="table" tableValues="0.231373 0.847059"/><feFuncG type="table" tableValues="0.258824 0.870588"/><feFuncB type="table" tableValues="0.321569 0.913725"/></feComponentTransfer></filter></svg>#zoteroSnow') !important;
+  background: transparent !important;
 }
 
 .horizontal-resize-handle {
-    background-color: #fcfaf7;
+  background-color: #c5cfdb !important;
 }
 
-.doc-container .loading {
-    background-color: #000000;
-    color: #ffffff;
+.vertical-resize-handle,
+.split-view-resizer,
+[class*="resize-handle"],
+[class*="splitter"] {
+  background-color: #c5cfdb !important;
 }
 
-.doc-container, .history-all-versions-container, .loading, #left-menu {
-    background-color: #ffffff;
+.pdf-viewer::-webkit-scrollbar,
+.pdfjs::-webkit-scrollbar,
+.pdf-viewer .viewer::-webkit-scrollbar,
+.pdfjs .viewer::-webkit-scrollbar,
+.pdf-viewer #viewerContainer::-webkit-scrollbar,
+.pdfjs #viewerContainer::-webkit-scrollbar {
+  width: 10px !important;
+  height: 10px !important;
 }
 
-.cm-activeLine {
-    background: rgba(0, 0, 0, 0.02) !important;
+.pdf-viewer::-webkit-scrollbar-track,
+.pdfjs::-webkit-scrollbar-track,
+.pdf-viewer .viewer::-webkit-scrollbar-track,
+.pdfjs .viewer::-webkit-scrollbar-track,
+.pdf-viewer #viewerContainer::-webkit-scrollbar-track,
+.pdfjs #viewerContainer::-webkit-scrollbar-track {
+  background: #d8dee9 !important;
 }
 
-/* Specify the highlight color directly */
-::.ͼe.cm-focused > .cm-scroller > .cm-selectionLayer .cm-selectionBackground, 
-.ͼe .cm-selectionBackground, .ͼe .cm-content ::selection, .ͼe .cm-searchMatch.cm-searchMatch.cm-searchMatch-selected {
-    background-color: rgba(0, 180, 0, 0.5) !important; 
-    color: #000000 !important; /* Ensuring text color is readable */
+.pdf-viewer::-webkit-scrollbar-thumb,
+.pdfjs::-webkit-scrollbar-thumb,
+.pdf-viewer .viewer::-webkit-scrollbar-thumb,
+.pdfjs .viewer::-webkit-scrollbar-thumb,
+.pdf-viewer #viewerContainer::-webkit-scrollbar-thumb,
+.pdfjs #viewerContainer::-webkit-scrollbar-thumb {
+  background: #b8c3d1 !important;
+  border-radius: 8px !important;
+  border: 2px solid #d8dee9 !important;
 }
 
+.pdf-viewer::-webkit-scrollbar-thumb:hover,
+.pdfjs::-webkit-scrollbar-thumb:hover,
+.pdf-viewer .viewer::-webkit-scrollbar-thumb:hover,
+.pdfjs .viewer::-webkit-scrollbar-thumb:hover,
+.pdf-viewer #viewerContainer::-webkit-scrollbar-thumb:hover,
+.pdfjs #viewerContainer::-webkit-scrollbar-thumb:hover {
+  background: #9fb0c5 !important;
+}
+
+.pdfViewer .canvasWrapper,
+.pdf-viewer .canvasWrapper,
+.pdfjs .canvasWrapper,
+.pdfViewer .page > div,
+.pdf-viewer .page > div,
+.pdfjs .page > div {
+  background: transparent !important;
+  background-image: none !important;
+  border: none !important;
+  box-shadow: none !important;
+  -webkit-box-shadow: none !important;
+  filter: none !important;
+}
+
+/* PDF text selection: Nord cyan/blue tone */
+.pdfViewer .textLayer ::selection,
+.pdf-viewer .textLayer ::selection,
+.pdfjs .textLayer ::selection,
+.pdfViewer .textLayer span::selection,
+.pdf-viewer .textLayer span::selection,
+.pdfjs .textLayer span::selection {
+  background: rgba(94, 129, 172, 0.42) !important;
+  color: transparent !important;
+  -webkit-text-fill-color: transparent !important;
+}
+
+.pdfViewer .textLayer ::-moz-selection,
+.pdf-viewer .textLayer ::-moz-selection,
+.pdfjs .textLayer ::-moz-selection,
+.pdfViewer .textLayer span::-moz-selection,
+.pdf-viewer .textLayer span::-moz-selection,
+.pdfjs .textLayer span::-moz-selection {
+  background: rgba(94, 129, 172, 0.42) !important;
+  color: transparent !important;
+}
 `;
 
+const allStyles = [styleNordDark, styleNordLight];
 
-
-
-
-
-
-
-
-
-
-stylePurple.innerText = `
-/* Purple Theme Styles (same as Black Theme for now) */
-html, .loading-screen.ng-scope, .history-entries, .history-labels-list,
-body, .navbar, footer, .popover, .tooltip, .pdf, .pdf-viewer,
-.cm-panels-top, .toolbar-header, .ide-react-editor-sidebar, .history-react,
-.toolbar .dropdown-menu, .modal-backdrop, .project-list-sidebar-wrapper-react,
-.project-list-main-react .fa-circle, .synctex-controls, .custom-toggler,
-.doc-container, .tag-dot, .color-picker-item, .loading, .history-version-list-container,
-.chat {
-    transition: background-color 0.3s ease, color 0.3s ease, filter 0.3s ease;
-}
-
-html, .loading-screen.ng-scope, .history-entries, .history-labels-list {
-    background-color: black !important;
-}
-
-.pdf-viewer {
-    background-color: #e4e8ed;
-}
-
-body,
-${location.href.endsWith("overleaf.com/") || location.href.endsWith("overleaf.com") ? "" : ".navbar, .navbar .dropdown-menu,"}
-footer,
-.popover,
-.tooltip,
-.pdf,
-.pdf-viewer,
-.cm-panels-top,
-.toolbar-header,
-.ide-react-editor-sidebar,
-.history-react,
-.toolbar .dropdown-menu,
-.modal-backdrop,
-.project-list-sidebar-wrapper-react,
-.project-list-main-react .fa-circle,
-.synctex-controls,
-.custom-toggler,
-.doc-container,
-.tag-dot,
-.color-picker-item,
-.loading,
-.history-version-list-container,
-.chat {
-    filter: url('data:image/svg+xml, <svg xmlns="http://www.w3.org/2000/svg">\
-      <filter id="replaceWhiteWithPurple" color-interpolation-filters="sRGB">\
-        <feComponentTransfer>\
-          <feFuncR type="table" tableValues="1 0.08"/>\
-          <feFuncG type="table" tableValues="1 0.0"/>\
-          <feFuncB type="table" tableValues="1 0.1"/>\
-        </feComponentTransfer>\
-      </filter>\
-    </svg>#replaceWhiteWithPurple');
-}
-
-.cm-gutters {
-    background-color: transparent !important;
-}
-
-.cm-panels-top {
-    border-bottom: 1px solid #222 !important;
-}
-
-.project-list-main-react, .cm-activeLineGutter, .pdf-viewer {
-    background-color: #f4f5f6 !important;
-}
-
-.horizontal-resize-handle {
-    background-color: #fcfaf7;
-}
-
-.doc-container .loading {
-    background-color: #000000;
-    color: #ffffff;
-}
-
-.doc-container, .history-all-versions-container, .loading, #left-menu {
-    background-color: #ffffff;
-}
-
-.cm-activeLine {
-    background: rgba(0, 0, 0, 0.02) !important;
-}
-
-/* Specify the highlight color directly */
-::.ͼe.cm-focused > .cm-scroller > .cm-selectionLayer .cm-selectionBackground, 
-.ͼe .cm-selectionBackground, .ͼe .cm-content ::selection, .ͼe .cm-searchMatch.cm-searchMatch.cm-searchMatch-selected {
-    background-color: rgba(0, 180, 0, 0.5) !important; 
-    color: #000000 !important; /* Ensuring text color is readable */
-}
-
-`;
-
-
-function applyTheme(theme) {
-  if (theme === 'black') {
-    document.body.appendChild(styleBlack);
-    if (stylePurple.parentNode) {
-      stylePurple.parentNode.removeChild(stylePurple);
+function clearStyles() {
+  allStyles.forEach((styleTag) => {
+    if (styleTag.parentNode) {
+      styleTag.parentNode.removeChild(styleTag);
     }
-    if (styleblue.parentNode) {
-      styleblue.parentNode.removeChild(styleblue);
-    }
-  } else if (theme === 'purple') {
-    document.body.appendChild(stylePurple);
-    if (styleBlack.parentNode) {
-      styleBlack.parentNode.removeChild(styleBlack);
-    }
-    if (styleblue.parentNode) {
-      styleblue.parentNode.removeChild(styleblue);
-    }
-  } else if (theme === 'blue') {
-    document.body.appendChild(styleblue);
-    if (styleBlack.parentNode) {
-      styleBlack.parentNode.removeChild(styleBlack);
-    }
-    if (stylePurple.parentNode) {
-      stylePurple.parentNode.removeChild(stylePurple);
-    }
-  } else {
-    if (styleBlack.parentNode) {
-      styleBlack.parentNode.removeChild(styleBlack);
-    }
-    if (stylePurple.parentNode) {
-      stylePurple.parentNode.removeChild(stylePurple);
-    }
-    if (styleblue.parentNode) {
-      styleblue.parentNode.removeChild(styleblue);
-    }
+  });
+}
+
+function appendStyle(styleTag) {
+  const parent = document.head || document.documentElement || document.body;
+  if (parent && !styleTag.parentNode) {
+    parent.appendChild(styleTag);
   }
 }
 
-// Retrieve the 'theme' setting from Chrome storage
+function normalizeTheme(theme) {
+  if (theme === 'black' || theme === 'purple' || theme === 'blue') {
+    return 'nord-dark';
+  }
+
+  if (theme === 'nord-light' || theme === 'off') {
+    return theme;
+  }
+
+  return 'nord-dark';
+}
+
+function applyTheme(theme) {
+  const resolvedTheme = normalizeTheme(theme);
+  clearStyles();
+
+  if (resolvedTheme === 'nord-dark') {
+    appendStyle(styleNordDark);
+    return;
+  }
+
+  if (resolvedTheme === 'nord-light') {
+    appendStyle(styleNordLight);
+  }
+}
+
 chrome.storage.sync.get(['theme'], function(result) {
-  applyTheme(result.theme);
+  const theme = normalizeTheme(result.theme);
+
+  if (result.theme !== theme) {
+    chrome.storage.sync.set({ theme });
+  }
+
+  applyTheme(theme);
 });
 
-// Listen for changes in Chrome storage and update the style accordingly
 chrome.storage.onChanged.addListener(() => {
   chrome.storage.sync.get(['theme'], function(result) {
-    applyTheme(result.theme);
+    applyTheme(normalizeTheme(result.theme));
   });
 });
