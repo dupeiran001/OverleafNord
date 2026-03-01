@@ -36,9 +36,11 @@ function setThemeInStorage(theme, callback) {
 document.addEventListener('DOMContentLoaded', function() {
   const nordDarkButton = document.getElementById('nordDarkThemeButton');
   const nordLightButton = document.getElementById('nordLightThemeButton');
+  const gruvboxDarkButton = document.getElementById('gruvboxDarkThemeButton');
+  const gruvboxLightButton = document.getElementById('gruvboxLightThemeButton');
   const offButton = document.getElementById('offButton');
 
-  const buttons = [nordDarkButton, nordLightButton, offButton];
+  const buttons = [nordDarkButton, nordLightButton, gruvboxDarkButton, gruvboxLightButton, offButton];
 
   function setActiveButton(button) {
     buttons.forEach((btn) => btn.classList.remove('active'));
@@ -50,7 +52,13 @@ document.addEventListener('DOMContentLoaded', function() {
       return 'nord-dark';
     }
 
-    if (theme === 'nord-dark' || theme === 'nord-light' || theme === 'off') {
+    if (
+      theme === 'nord-dark' ||
+      theme === 'nord-light' ||
+      theme === 'gruvbox-dark' ||
+      theme === 'gruvbox-light' ||
+      theme === 'off'
+    ) {
       return theme;
     }
 
@@ -81,6 +89,16 @@ document.addEventListener('DOMContentLoaded', function() {
       return;
     }
 
+    if (theme === 'gruvbox-dark') {
+      setActiveButton(gruvboxDarkButton);
+      return;
+    }
+
+    if (theme === 'gruvbox-light') {
+      setActiveButton(gruvboxLightButton);
+      return;
+    }
+
     setActiveButton(offButton);
   });
 
@@ -90,6 +108,14 @@ document.addEventListener('DOMContentLoaded', function() {
 
   nordLightButton.addEventListener('click', function() {
     setTheme('nord-light', nordLightButton);
+  });
+
+  gruvboxDarkButton.addEventListener('click', function() {
+    setTheme('gruvbox-dark', gruvboxDarkButton);
+  });
+
+  gruvboxLightButton.addEventListener('click', function() {
+    setTheme('gruvbox-light', gruvboxLightButton);
   });
 
   offButton.addEventListener('click', function() {

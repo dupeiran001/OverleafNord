@@ -13,6 +13,8 @@ Nord-inspired theming for the Overleaf editor and PDF pane.
 ## Theme Options
 - Nord Dark (default)
 - Nord Light (snow)
+- Gruvbox Dusk (dark, warm)
+- Gruvbox Dawn (light, warm)
 - Default (no extension overrides)
 
 ## Install (Unpacked)

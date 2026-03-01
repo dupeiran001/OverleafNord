@@ -35,6 +35,8 @@ function setThemeInStorage(theme, callback) {
 
 const styleNordDark = document.createElement('style');
 const styleNordLight = document.createElement('style');
+const styleGruvboxDark = document.createElement('style');
+const styleGruvboxLight = document.createElement('style');
 
 styleNordDark.innerText = `
 /* Nord Dark: apply to PDF pane only (no global editor inversion) */
@@ -310,7 +312,277 @@ styleNordLight.innerText = `
 }
 `;
 
-const allStyles = [styleNordDark, styleNordLight];
+styleGruvboxDark.innerText = `
+/* Gruvbox Dark: warm paper + amber accents */
+.pdf,
+.pdf-viewer,
+.pdfjs,
+.pdfjs-viewer,
+.pdfjs .viewer,
+.pdf-viewer .viewer,
+.synctex-controls {
+  background-color: #1f1b18 !important;
+  color: #ebdbb2 !important;
+  color-scheme: dark !important;
+  scrollbar-color: #665c54 #1f1b18 !important;
+  transition: background-color 0.25s ease, color 0.25s ease, border-color 0.25s ease, filter 0.25s ease;
+}
+
+.pdf-viewer .page,
+.pdfjs .page,
+.pdfViewer .page {
+  background-color: #282828 !important;
+  background-image: none !important;
+  border: 1px solid #3c3836 !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  -webkit-box-shadow: none !important;
+  filter: none !important;
+  outline: none !important;
+  overflow: hidden !important;
+}
+
+.pdf-viewer .page::before,
+.pdf-viewer .page::after,
+.pdfjs .page::before,
+.pdfjs .page::after,
+.pdfViewer .page::before,
+.pdfViewer .page::after {
+  content: none !important;
+  background: none !important;
+  background-image: none !important;
+  border: none !important;
+  box-shadow: none !important;
+  -webkit-box-shadow: none !important;
+  filter: none !important;
+}
+
+.pdf-viewer canvas,
+.pdf canvas,
+.pdfjs canvas {
+  filter: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg"><filter id="zoteroGruvboxDark" color-interpolation-filters="sRGB"><feColorMatrix type="matrix" values="-1 0 0 0 1 0 -1 0 0 1 0 0 -1 0 1 0 0 0 1 0"/><feComponentTransfer><feFuncR type="table" tableValues="0.156863 0.921569"/><feFuncG type="table" tableValues="0.156863 0.858824"/><feFuncB type="table" tableValues="0.156863 0.698039"/></feComponentTransfer></filter></svg>#zoteroGruvboxDark') !important;
+  background: transparent !important;
+}
+
+.horizontal-resize-handle {
+  background-color: #504945 !important;
+}
+
+.vertical-resize-handle,
+.split-view-resizer,
+[class*="resize-handle"],
+[class*="splitter"] {
+  background-color: #504945 !important;
+}
+
+.pdf-viewer::-webkit-scrollbar,
+.pdfjs::-webkit-scrollbar,
+.pdf-viewer .viewer::-webkit-scrollbar,
+.pdfjs .viewer::-webkit-scrollbar,
+.pdf-viewer #viewerContainer::-webkit-scrollbar,
+.pdfjs #viewerContainer::-webkit-scrollbar {
+  width: 10px !important;
+  height: 10px !important;
+}
+
+.pdf-viewer::-webkit-scrollbar-track,
+.pdfjs::-webkit-scrollbar-track,
+.pdf-viewer .viewer::-webkit-scrollbar-track,
+.pdfjs .viewer::-webkit-scrollbar-track,
+.pdf-viewer #viewerContainer::-webkit-scrollbar-track,
+.pdfjs #viewerContainer::-webkit-scrollbar-track {
+  background: #1f1b18 !important;
+}
+
+.pdf-viewer::-webkit-scrollbar-thumb,
+.pdfjs::-webkit-scrollbar-thumb,
+.pdf-viewer .viewer::-webkit-scrollbar-thumb,
+.pdfjs .viewer::-webkit-scrollbar-thumb,
+.pdf-viewer #viewerContainer::-webkit-scrollbar-thumb,
+.pdfjs #viewerContainer::-webkit-scrollbar-thumb {
+  background: #665c54 !important;
+  border-radius: 8px !important;
+  border: 2px solid #1f1b18 !important;
+}
+
+.pdf-viewer::-webkit-scrollbar-thumb:hover,
+.pdfjs::-webkit-scrollbar-thumb:hover,
+.pdf-viewer .viewer::-webkit-scrollbar-thumb:hover,
+.pdfjs .viewer::-webkit-scrollbar-thumb:hover,
+.pdf-viewer #viewerContainer::-webkit-scrollbar-thumb:hover,
+.pdfjs #viewerContainer::-webkit-scrollbar-thumb:hover {
+  background: #b57614 !important;
+}
+
+.pdfViewer .canvasWrapper,
+.pdf-viewer .canvasWrapper,
+.pdfjs .canvasWrapper,
+.pdfViewer .page > div,
+.pdf-viewer .page > div,
+.pdfjs .page > div {
+  background: transparent !important;
+  background-image: none !important;
+  border: none !important;
+  box-shadow: none !important;
+  -webkit-box-shadow: none !important;
+  filter: none !important;
+}
+
+.pdfViewer .textLayer ::selection,
+.pdf-viewer .textLayer ::selection,
+.pdfjs .textLayer ::selection,
+.pdfViewer .textLayer span::selection,
+.pdf-viewer .textLayer span::selection,
+.pdfjs .textLayer span::selection {
+  background: rgba(215, 153, 33, 0.38) !important;
+}
+
+.pdfViewer .textLayer ::-moz-selection,
+.pdf-viewer .textLayer ::-moz-selection,
+.pdfjs .textLayer ::-moz-selection,
+.pdfViewer .textLayer span::-moz-selection,
+.pdf-viewer .textLayer span::-moz-selection,
+.pdfjs .textLayer span::-moz-selection {
+  background: rgba(215, 153, 33, 0.38) !important;
+}
+`;
+
+styleGruvboxLight.innerText = `
+/* Gruvbox Light: warm parchment */
+.pdf,
+.pdf-viewer,
+.pdfjs,
+.pdfjs-viewer,
+.pdfjs .viewer,
+.pdf-viewer .viewer,
+.synctex-controls {
+  background-color: #f2e5bc !important;
+  color: #3c3836 !important;
+  color-scheme: light !important;
+  scrollbar-color: #d5c4a1 #f2e5bc !important;
+  transition: background-color 0.25s ease, color 0.25s ease, border-color 0.25s ease, filter 0.25s ease;
+}
+
+.pdf-viewer .page,
+.pdfjs .page,
+.pdfViewer .page {
+  background-color: #fbf1c7 !important;
+  background-image: none !important;
+  border: 1px solid #bdae93 !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  -webkit-box-shadow: none !important;
+  filter: none !important;
+  outline: none !important;
+  overflow: hidden !important;
+}
+
+.pdf-viewer .page::before,
+.pdf-viewer .page::after,
+.pdfjs .page::before,
+.pdfjs .page::after,
+.pdfViewer .page::before,
+.pdfViewer .page::after {
+  content: none !important;
+  background: none !important;
+  background-image: none !important;
+  border: none !important;
+  box-shadow: none !important;
+  -webkit-box-shadow: none !important;
+  filter: none !important;
+}
+
+.pdf-viewer canvas,
+.pdf canvas,
+.pdfjs canvas {
+  filter: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg"><filter id="zoteroGruvboxLight" color-interpolation-filters="sRGB"><feComponentTransfer><feFuncR type="table" tableValues="0.235294 0.984314"/><feFuncG type="table" tableValues="0.219608 0.945098"/><feFuncB type="table" tableValues="0.211765 0.780392"/></feComponentTransfer></filter></svg>#zoteroGruvboxLight') !important;
+  background: transparent !important;
+}
+
+.horizontal-resize-handle {
+  background-color: #d5c4a1 !important;
+}
+
+.vertical-resize-handle,
+.split-view-resizer,
+[class*="resize-handle"],
+[class*="splitter"] {
+  background-color: #d5c4a1 !important;
+}
+
+.pdf-viewer::-webkit-scrollbar,
+.pdfjs::-webkit-scrollbar,
+.pdf-viewer .viewer::-webkit-scrollbar,
+.pdfjs .viewer::-webkit-scrollbar,
+.pdf-viewer #viewerContainer::-webkit-scrollbar,
+.pdfjs #viewerContainer::-webkit-scrollbar {
+  width: 10px !important;
+  height: 10px !important;
+}
+
+.pdf-viewer::-webkit-scrollbar-track,
+.pdfjs::-webkit-scrollbar-track,
+.pdf-viewer .viewer::-webkit-scrollbar-track,
+.pdfjs .viewer::-webkit-scrollbar-track,
+.pdf-viewer #viewerContainer::-webkit-scrollbar-track,
+.pdfjs #viewerContainer::-webkit-scrollbar-track {
+  background: #f2e5bc !important;
+}
+
+.pdf-viewer::-webkit-scrollbar-thumb,
+.pdfjs::-webkit-scrollbar-thumb,
+.pdf-viewer .viewer::-webkit-scrollbar-thumb,
+.pdfjs .viewer::-webkit-scrollbar-thumb,
+.pdf-viewer #viewerContainer::-webkit-scrollbar-thumb,
+.pdfjs #viewerContainer::-webkit-scrollbar-thumb {
+  background: #d5c4a1 !important;
+  border-radius: 8px !important;
+  border: 2px solid #f2e5bc !important;
+}
+
+.pdf-viewer::-webkit-scrollbar-thumb:hover,
+.pdfjs::-webkit-scrollbar-thumb:hover,
+.pdf-viewer .viewer::-webkit-scrollbar-thumb:hover,
+.pdfjs .viewer::-webkit-scrollbar-thumb:hover,
+.pdf-viewer #viewerContainer::-webkit-scrollbar-thumb:hover,
+.pdfjs #viewerContainer::-webkit-scrollbar-thumb:hover {
+  background: #bdae93 !important;
+}
+
+.pdfViewer .canvasWrapper,
+.pdf-viewer .canvasWrapper,
+.pdfjs .canvasWrapper,
+.pdfViewer .page > div,
+.pdf-viewer .page > div,
+.pdfjs .page > div {
+  background: transparent !important;
+  background-image: none !important;
+  border: none !important;
+  box-shadow: none !important;
+  -webkit-box-shadow: none !important;
+  filter: none !important;
+}
+
+.pdfViewer .textLayer ::selection,
+.pdf-viewer .textLayer ::selection,
+.pdfjs .textLayer ::selection,
+.pdfViewer .textLayer span::selection,
+.pdf-viewer .textLayer span::selection,
+.pdfjs .textLayer span::selection {
+  background: rgba(184, 121, 31, 0.33) !important;
+}
+
+.pdfViewer .textLayer ::-moz-selection,
+.pdf-viewer .textLayer ::-moz-selection,
+.pdfjs .textLayer ::-moz-selection,
+.pdfViewer .textLayer span::-moz-selection,
+.pdf-viewer .textLayer span::-moz-selection,
+.pdfjs .textLayer span::-moz-selection {
+  background: rgba(184, 121, 31, 0.33) !important;
+}
+`;
+
+const allStyles = [styleNordDark, styleNordLight, styleGruvboxDark, styleGruvboxLight];
 
 function clearStyles() {
   allStyles.forEach((styleTag) => {
@@ -332,7 +604,12 @@ function normalizeTheme(theme) {
     return 'nord-dark';
   }
 
-  if (theme === 'nord-light' || theme === 'off') {
+  if (
+    theme === 'nord-light' ||
+    theme === 'gruvbox-dark' ||
+    theme === 'gruvbox-light' ||
+    theme === 'off'
+  ) {
     return theme;
   }
 
@@ -350,6 +627,16 @@ function applyTheme(theme) {
 
   if (resolvedTheme === 'nord-light') {
     appendStyle(styleNordLight);
+    return;
+  }
+
+  if (resolvedTheme === 'gruvbox-dark') {
+    appendStyle(styleGruvboxDark);
+    return;
+  }
+
+  if (resolvedTheme === 'gruvbox-light') {
+    appendStyle(styleGruvboxLight);
   }
 }
 

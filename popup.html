@@ -6,8 +6,8 @@
   <title>OverleafNord</title>
   <style>
     body {
-      width: 250px;
-      height: 250px;
+      width: 280px;
+      min-height: 340px;
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       margin: 0;
       padding: 15px;
@@ -33,10 +33,10 @@
       margin-right: 8px; /* Space between icon and text */
     }
     .toggle-container {
-      height: 150px;
+      height: auto;
       display: flex;
       flex-direction: column;
-      gap: 12px;
+      gap: 10px;
       width: 100%;
     }
     .toggleButton {
@@ -79,6 +79,16 @@
       color: #3b4252;
       border: 1px solid #d8dee9;
     }
+    #gruvboxDarkThemeButton {
+      background-color: #282828;
+      color: #ebdbb2;
+      border: 1px solid #665c54;
+    }
+    #gruvboxLightThemeButton {
+      background-color: #fbf1c7;
+      color: #3c3836;
+      border: 1px solid #d5c4a1;
+    }
     .toggleButton.active {
       box-shadow: 0 0 0 2px #88c0d0, 0 0 14px rgba(136, 192, 208, 0.45);
       transform: scale(1.03);
@@ -103,6 +113,8 @@
   <div class="toggle-container">
     <button id="nordDarkThemeButton" class="toggleButton">Nord Dark (Default)</button>
     <button id="nordLightThemeButton" class="toggleButton">Nord Light (Snow)</button>
+    <button id="gruvboxDarkThemeButton" class="toggleButton">Gruvbox Dusk</button>
+    <button id="gruvboxLightThemeButton" class="toggleButton">Gruvbox Dawn</button>
     <button id="offButton" class="toggleButton">Default</button>
   </div>
   <div class="footer">
