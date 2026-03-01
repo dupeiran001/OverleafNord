@@ -20,5 +20,10 @@
     }
   ],
   "permissions": ["storage"],
-  "update_url": "https://clients2.google.com/service/update2/crx"
+  "browser_specific_settings": {
+    "gecko": {
+      "id": "overleafnord@dupeiran001.github",
+      "strict_min_version": "109.0"
+    }
+  }
 }

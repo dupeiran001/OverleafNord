@@ -16,8 +16,15 @@ Nord-inspired theming for the Overleaf editor and PDF pane.
 - Default (no extension overrides)
 
 ## Install (Unpacked)
+### Chrome
 1. Clone this repo.
 2. Open `chrome://extensions`.
 3. Enable **Developer mode**.
 4. Click **Load unpacked**.
 5. Select this project folder.
+
+### Firefox
+1. Clone this repo.
+2. Open `about:debugging#/runtime/this-firefox`.
+3. Click **Load Temporary Add-on...**
+4. Select `manifest.json` from this project folder.

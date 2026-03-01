@@ -1,3 +1,38 @@
+const extensionApi = globalThis.browser || globalThis.chrome;
+const storageSync = extensionApi && extensionApi.storage ? extensionApi.storage.sync : null;
+const browserStorageSync = globalThis.browser?.storage?.sync || null;
+const usesPromiseStorage = !!browserStorageSync && storageSync === browserStorageSync;
+
+function getThemeFromStorage(callback) {
+  if (!storageSync) {
+    callback({});
+    return;
+  }
+
+  if (usesPromiseStorage) {
+    storageSync.get(['theme']).then(callback).catch(() => callback({}));
+    return;
+  }
+
+  storageSync.get(['theme'], callback);
+}
+
+function setThemeInStorage(theme, callback) {
+  const done = typeof callback === 'function' ? callback : function() {};
+
+  if (!storageSync) {
+    done();
+    return;
+  }
+
+  if (usesPromiseStorage) {
+    storageSync.set({ theme }).then(done).catch(done);
+    return;
+  }
+
+  storageSync.set({ theme }, done);
+}
+
 const styleNordDark = document.createElement('style');
 const styleNordLight = document.createElement('style');
 
@@ -126,8 +161,6 @@ styleNordDark.innerText = `
 .pdf-viewer .textLayer span::selection,
 .pdfjs .textLayer span::selection {
   background: rgba(136, 192, 208, 0.50) !important;
-  color: transparent !important;
-  -webkit-text-fill-color: transparent !important;
 }
 
 .pdfViewer .textLayer ::-moz-selection,
@@ -137,7 +170,6 @@ styleNordDark.innerText = `
 .pdf-viewer .textLayer span::-moz-selection,
 .pdfjs .textLayer span::-moz-selection {
   background: rgba(136, 192, 208, 0.50) !important;
-  color: transparent !important;
 }
 `;
 
@@ -266,8 +298,6 @@ styleNordLight.innerText = `
 .pdf-viewer .textLayer span::selection,
 .pdfjs .textLayer span::selection {
   background: rgba(94, 129, 172, 0.42) !important;
-  color: transparent !important;
-  -webkit-text-fill-color: transparent !important;
 }
 
 .pdfViewer .textLayer ::-moz-selection,
@@ -277,7 +307,6 @@ styleNordLight.innerText = `
 .pdf-viewer .textLayer span::-moz-selection,
 .pdfjs .textLayer span::-moz-selection {
   background: rgba(94, 129, 172, 0.42) !important;
-  color: transparent !important;
 }
 `;
 
@@ -324,18 +353,20 @@ function applyTheme(theme) {
   }
 }
 
-chrome.storage.sync.get(['theme'], function(result) {
+getThemeFromStorage(function(result) {
   const theme = normalizeTheme(result.theme);
 
   if (result.theme !== theme) {
-    chrome.storage.sync.set({ theme });
+    setThemeInStorage(theme);
   }
 
   applyTheme(theme);
 });
 
-chrome.storage.onChanged.addListener(() => {
-  chrome.storage.sync.get(['theme'], function(result) {
-    applyTheme(normalizeTheme(result.theme));
+if (extensionApi && extensionApi.storage && extensionApi.storage.onChanged) {
+  extensionApi.storage.onChanged.addListener(() => {
+    getThemeFromStorage(function(result) {
+      applyTheme(normalizeTheme(result.theme));
+    });
   });
-});
+}

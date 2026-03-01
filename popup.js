@@ -1,3 +1,38 @@
+const extensionApi = globalThis.browser || globalThis.chrome;
+const storageSync = extensionApi && extensionApi.storage ? extensionApi.storage.sync : null;
+const browserStorageSync = globalThis.browser?.storage?.sync || null;
+const usesPromiseStorage = !!browserStorageSync && storageSync === browserStorageSync;
+
+function getThemeFromStorage(callback) {
+  if (!storageSync) {
+    callback({});
+    return;
+  }
+
+  if (usesPromiseStorage) {
+    storageSync.get(['theme']).then(callback).catch(() => callback({}));
+    return;
+  }
+
+  storageSync.get(['theme'], callback);
+}
+
+function setThemeInStorage(theme, callback) {
+  const done = typeof callback === 'function' ? callback : function() {};
+
+  if (!storageSync) {
+    done();
+    return;
+  }
+
+  if (usesPromiseStorage) {
+    storageSync.set({ theme }).then(done).catch(done);
+    return;
+  }
+
+  storageSync.set({ theme }, done);
+}
+
 document.addEventListener('DOMContentLoaded', function() {
   const nordDarkButton = document.getElementById('nordDarkThemeButton');
   const nordLightButton = document.getElementById('nordLightThemeButton');
@@ -24,16 +59,16 @@ document.addEventListener('DOMContentLoaded', function() {
 
   function setTheme(theme, button) {
     const normalizedTheme = normalizeTheme(theme);
-    chrome.storage.sync.set({ theme: normalizedTheme }, function() {
+    setThemeInStorage(normalizedTheme, function() {
       setActiveButton(button);
     });
   }
 
-  chrome.storage.sync.get(['theme'], function(result) {
+  getThemeFromStorage(function(result) {
     const theme = normalizeTheme(result.theme);
 
     if (result.theme !== theme) {
-      chrome.storage.sync.set({ theme });
+      setThemeInStorage(theme);
     }
 
     if (theme === 'nord-dark') {
